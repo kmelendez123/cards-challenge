@@ -1,34 +1,46 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
+import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import { Card, CardContent, Paper } from "@material-ui/core";
 
 const useStyles = makeStyles({
-  card: {
-    minWidth: 275,
-    minHeight: 275,
+  blackCard: {
+    color: "black",
+    marginBottom: 4
   },
-  title: {
-    fontSize: 14,
+  redCard: {
+    color: "red",
+    marginBottom: 4
   },
-  pos: {
-    marginBottom: 12,
-  },
+  paper: {
+      maxWidth: "5rem",
+  }
 });
 
-function Cards() {
+const Cards = props => {
   const classes = useStyles();
-
-  return (
-    <Card className={classes.card}>
-      <CardContent>
-        <Typography className={classes.pos}>
-          Card Number and Suit
-        </Typography>
-      </CardContent>
-    </Card>
-  );
-}
+  if (props.suit === "♣︎" || props.suit === "♠︎") {
+    return (
+      <Paper className={classes.paper}>
+        <Card className={classes.blackCard}>
+          <CardContent>
+            {props.value}
+            {props.suit}
+          </CardContent>
+        </Card>
+      </Paper>
+    );
+  } else {
+    return (
+      <Paper className={classes.paper}>
+        <Card className={classes.redCard}>
+          <CardContent>
+            {props.value}
+            {props.suit}
+          </CardContent>
+        </Card>
+      </Paper>
+    );
+  }
+};
 
 export default Cards;
