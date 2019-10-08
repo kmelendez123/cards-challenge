@@ -16,7 +16,7 @@ const useStyles = makeStyles({
   }
 });
 
-const Cards = props => {
+const Cards = (props) => {
   const classes = useStyles();
   if (props.suit === "♣︎" || props.suit === "♠︎") {
     return (

@@ -7,13 +7,10 @@ class Deck extends React.Component {
     super(props);
     this.state = {
       cardDeck: [],
-      pickedCards: []
+      pickedCards: [],
+      initialDeck: []
     };
-  }
-
-  render() {
     let id = 1;
-    const initialDeck = this.state.cardDeck;
     const suits = ["♠︎", "♥︎", "♣︎", "♦︎"];
     const ranks = [
       "A",
@@ -31,16 +28,22 @@ class Deck extends React.Component {
       "Q",
       "K"
     ];
-    for (let x = 0; x < suits.length; x++) {
-      for (let y = 0; y < ranks.length; y++) {
-        let card = { id: id, suit: suits[x], val: ranks[y] };
-        initialDeck.push(card);
+    for (const x of suits) {
+      for (const y of ranks) {
+        let card = { id: id, suit: x, val: y };
+        this.state.initialDeck.push(card);
         id++;
       }
     }
+  }
 
+  async componentDidMount() {
+    this.setState({ cardDeck: this.state.initialDeck })
+  }
+
+  render() {
     const shuffleDeck = () => {
-      const shuffledDeck = initialDeck;
+      const shuffledDeck = this.state.initialDeck;
       for (let i = shuffledDeck.length - 1; i > 0; i--) {
         let rand = Math.floor(Math.random() * i);
         let temp = shuffledDeck[i];
@@ -51,20 +54,18 @@ class Deck extends React.Component {
     };
 
     const drawCard = () => {
-      let cards = initialDeck;
+      let cards = this.state.cardDeck;
       let cardsDrawnArray = this.state.pickedCards;
       const randCard = cards[Math.floor(Math.random() * cards.length)];
-      const newCards = cards.filter(
-        element => element.index !== randCard.index
-      );
-      this.setState({ cardDeck: newCards, pickedCards: [] });
+      const newCards = cards.filter(element => element.id !== randCard.id);
       cardsDrawnArray.length < 52 && cardsDrawnArray.push(randCard);
-      this.setState({ pickedCards: cardsDrawnArray });
+      this.setState({ cardDeck: newCards, pickedCards: cardsDrawnArray });
     };
+
     return (
       <Grid container spacing={2}>
         <Grid item md={4}>
-          {initialDeck.map(function(card) {
+          {this.state.cardDeck.map(function(card) {
             return <Cards key={card.id} suit={card.suit} value={card.val} />;
           })}
         </Grid>
