@@ -49,7 +49,18 @@ class Deck extends React.Component {
       }
       this.setState({ cardDeck: shuffledDeck, pickedCards: [] });
     };
-    
+
+    const drawCard = () => {
+      let cards = initialDeck;
+      let cardsDrawnArray = this.state.pickedCards;
+      const randCard = cards[Math.floor(Math.random() * cards.length)];
+      const newCards = cards.filter(
+        element => element.index !== randCard.index
+      );
+      this.setState({ cardDeck: newCards, pickedCards: [] });
+      cardsDrawnArray.length < 52 && cardsDrawnArray.push(randCard);
+      this.setState({ pickedCards: cardsDrawnArray });
+    };
     return (
       <Grid container spacing={3}>
         <Grid item={4}>
@@ -57,7 +68,7 @@ class Deck extends React.Component {
             return <Cards key={card.id} suit={card.suit} value={card.val} />;
           })}
         </Grid>
-        <Grid item={6}>
+        <Grid item={4}>
           <Button
             style={{ marginRight: "2rem" }}
             variant="contained"
@@ -65,9 +76,13 @@ class Deck extends React.Component {
           >
             Shuffle
           </Button>
-          <Button variant="contained">Draw Card</Button>
+          <Button variant="contained" onClick={() => drawCard()}>Draw Card</Button>
         </Grid>
-        <Grid item={6}>Cards Drawn Over Here</Grid>
+        <Grid item={4}>
+          {this.state.pickedCards.map(function(card) {
+            return <Cards key={card.id} suit={card.suit} value={card.val} />;
+          })}
+        </Grid>
       </Grid>
     );
   }
