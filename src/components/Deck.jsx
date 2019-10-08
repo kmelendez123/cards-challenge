@@ -76,7 +76,13 @@ class Deck extends React.Component {
           >
             Shuffle
           </Button>
-          <Button variant="contained" onClick={() => drawCard()}>Draw Card</Button>
+          <Button
+            id="drawButton"
+            variant="contained"
+            onClick={() => drawCard()}
+          >
+            Draw Card
+          </Button>
         </Grid>
         <Grid item={4}>
           {this.state.pickedCards.map(function(card) {
